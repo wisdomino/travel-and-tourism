@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head><title>Verify OTP</title></head>
+<body>
+  <h2>Verify OTP</h2>
+  <p>Client: {{ client_code }} | Phone: {{ phone_e164 }}</p>
+
+  {% for message in messages %}
+    <p style="color:red;">{{ message }}</p>
+  {% endfor %}
+
+  <form method="post">
+    {% csrf_token %}
+    <label>Enter OTP</label><br/>
+    <input name="otp" maxlength="6" required /><br/><br/>
+    <button type="submit">Verify</button>
+  </form>
+
+  <p><a href="/portal/">Back</a></p>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head><title>My Application Status</title></head>
+<body>
+  <h2>My Application Status</h2>
+  <p><a href="/portal/logout/">Logout</a></p>
+
+  {% if cases %}
+    <ul>
+      {% for c in cases %}
+        <li>
+          <b>{{ c.case_code }}</b> — {{ c.destination_country_code }} ({{ c.get_application_type_display }})<br/>
+          Status: <b>{{ c.get_current_status_display }}</b><br/>
+          Next action: {{ c.next_action|default:"-" }}<br/>
+          Updated: {{ c.updated_at }}
+        </li>
+        <hr/>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No cases found.</p>
+  {% endif %}
+</body>
+</html>

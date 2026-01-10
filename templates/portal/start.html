@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head><title>Client Portal - Request OTP</title></head>
+<body>
+  <h2>Client Portal</h2>
+
+  {% for message in messages %}
+    <p style="color:red;">{{ message }}</p>
+  {% endfor %}
+
+  <form method="post">
+    {% csrf_token %}
+    <label>Client ID (e.g. CL-0001)</label><br/>
+    <input name="client_code" required /><br/><br/>
+
+    <label>Phone (E.164 e.g. +2348012345678)</label><br/>
+    <input name="phone_e164" required /><br/><br/>
+
+    <button type="submit">Request OTP</button>
+  </form>
+
+  <p><small>Demo mode: OTP will appear in server logs.</small></p>
+</body>
+</html>

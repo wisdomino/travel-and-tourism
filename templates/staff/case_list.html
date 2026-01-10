@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head><title>Cases</title></head>
+<body>
+  <h2>Cases</h2>
+  <form method="get">
+    <label>Status:</label>
+    <input name="status" placeholder="e.g. EMBASSY_REVIEW" value="{{ request.GET.status }}"/>
+    <label>Country:</label>
+    <input name="country" placeholder="e.g. CA" value="{{ request.GET.country }}"/>
+    <button type="submit">Filter</button>
+  </form>
+
+  <hr/>
+
+  <ul>
+    {% for c in cases %}
+      <li>
+        <b>{{ c.case_code }}</b> — {{ c.client.full_name }} ({{ c.client.client_code }})<br/>
+        {{ c.destination_country_code }} / {{ c.get_application_type_display }}<br/>
+        Status: <b>{{ c.current_status }}</b> | Officer: {{ c.assigned_officer|default:"-" }}<br/>
+        Updated: {{ c.updated_at }}
+      </li>
+      <hr/>
+    {% endfor %}
+  </ul>
+</body>
+</html>
