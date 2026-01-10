@@ -1,21 +1,28 @@
-<!doctype html>
-<html>
-<head><title>Verify OTP</title></head>
-<body>
-  <h2>Verify OTP</h2>
-  <p>Client: {{ client_code }} | Phone: {{ phone_e164 }}</p>
+{% extends "base.html" %}
+{% block title %}Client Portal · Verify OTP{% endblock %}
 
-  {% for message in messages %}
-    <p style="color:red;">{{ message }}</p>
-  {% endfor %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card p-4 p-lg-5">
+      <h3 class="fw-bold mb-2">Verify OTP</h3>
+      <p class="text-muted mb-4">
+        We sent a one-time passcode to <b>{{ phone_e164 }}</b>. Enter it below.
+      </p>
 
-  <form method="post">
-    {% csrf_token %}
-    <label>Enter OTP</label><br/>
-    <input name="otp" maxlength="6" required /><br/><br/>
-    <button type="submit">Verify</button>
-  </form>
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">OTP</label>
+          <input name="otp" maxlength="6" class="form-control" placeholder="123456" required>
+        </div>
+        <button class="btn btn-primary w-100" type="submit">Continue</button>
+      </form>
 
-  <p><a href="/portal/">Back</a></p>
-</body>
-</html>
+      <div class="mt-3 small">
+        <a href="/portal/">Back</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

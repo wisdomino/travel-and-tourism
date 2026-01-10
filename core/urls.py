@@ -1,6 +1,6 @@
 from django.urls import path
-from django.shortcuts import redirect
+from . import views
 
 urlpatterns = [
-    path("", lambda r: redirect("/portal/")),
+    path("", views.home, name="home"),
 ]

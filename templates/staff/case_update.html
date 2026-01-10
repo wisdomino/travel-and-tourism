@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Staff · Update {{ case.case_code }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card p-4 p-lg-5">
+      <h3 class="fw-bold mb-1">Update Case</h3>
+      <p class="text-muted mb-4">{{ case.case_code }} · {{ case.client.full_name }}</p>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label">Status</label>
+          <select class="form-select" name="current_status" required>
+            {% for key, label in CaseStatus.choices %}
+              <option value="{{ key }}" {% if key == case.current_status %}selected{% endif %}>
+                {{ label }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Next Action (client-facing)</label>
+          <input class="form-control" name="next_action" value="{{ case.next_action|default:'' }}" placeholder="e.g. Awaiting embassy feedback / submit additional docs">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Internal Notes</label>
+          <textarea class="form-control" name="notes" rows="4" placeholder="Internal notes for staff">{{ case.notes|default:'' }}</textarea>
+        </div>
+
+        <div class="d-flex gap-2">
+          <button class="btn btn-primary" type="submit">Save & Notify Client</button>
+          <a class="btn btn-outline-secondary" href="/staff/cases/{{ case.id }}/">Cancel</a>
+        </div>
+
+        <div class="mt-3 small text-muted">
+          Demo mode: notification is printed in logs and stored in MessageLog.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

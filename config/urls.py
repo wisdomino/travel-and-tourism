@@ -15,21 +15,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.http import HttpResponse
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 
-
-def home(request):
-    return HttpResponse("Global Travel CRM is live ✅")
-
 urlpatterns = [
-    path("", home),
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+
+    # ✅ Home page lives in core.urls ("/")
     path("", include("core.urls")),
-    path("portal/", include("crm.portal_urls")),   # client portal
-    path("staff/", include("crm.staff_urls")),     # staff dashboard
+
+    # ✅ Portal + staff
+    path("portal/", include(("crm.portal_urls", "portal"), namespace="portal")),
+    path("staff/", include("crm.staff_urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
 ]
 
 if settings.DEBUG:

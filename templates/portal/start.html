@@ -1,24 +1,41 @@
-<!doctype html>
-<html>
-<head><title>Client Portal - Request OTP</title></head>
-<body>
-  <h2>Client Portal</h2>
+{% extends "base.html" %}
+{% block title %}Client Portal · Request OTP{% endblock %}
 
-  {% for message in messages %}
-    <p style="color:red;">{{ message }}</p>
-  {% endfor %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card p-4 p-lg-5">
+      <h3 class="fw-bold mb-2">Client Portal</h3>
+      <p class="text-muted mb-4">
+        Enter your Client ID and phone number to receive a one-time passcode.
+      </p>
 
-  <form method="post">
-    {% csrf_token %}
-    <label>Client ID (e.g. CL-0001)</label><br/>
-    <input name="client_code" required /><br/><br/>
+      <form method="post" class="mt-2">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Client ID</label>
+          <input name="client_code" class="form-control" placeholder="CL-0001" required>
+        </div>
 
-    <label>Phone (E.164 e.g. +2348012345678)</label><br/>
-    <input name="phone_e164" required /><br/><br/>
+        <div class="mb-3">
+          <label class="form-label">Phone (E.164 format)</label>
+          <input name="phone_e164" class="form-control" placeholder="+2348012345678" required>
+          <div class="form-text">Use international format with country code.</div>
+        </div>
 
-    <button type="submit">Request OTP</button>
-  </form>
-
-  <p><small>Demo mode: OTP will appear in server logs.</small></p>
-</body>
-</html>
+        <button class="btn btn-primary w-100" type="submit">Request OTP</button>
+      </form>
+        {% if case_code %}
+      <a class="btn btn-sm btn-outline-primary"
+         href="{% url 'portal:case_detail' case_code=case_code %}">View details
+      </a>
+        {% endif %}
+      <div class="mt-4 small text-muted">
+        {% if case_code %}
+      <a href="{% url 'portal:case_detail' case_code=case_code %}">View your case</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Home · Global Travel CRM{% endblock %}
+
+{% block content %}
+<div class="row align-items-center g-4">
+  <div class="col-lg-7">
+    <div class="p-4 p-lg-5 bg-white rounded-4 shadow-sm">
+      <h1 class="display-6 fw-bold mb-3">Professional client updates, without the stress.</h1>
+      <p class="lead text-muted mb-4">
+        Reduce missed calls and repetitive questions. Clients can securely check their application status anytime, while staff manage cases in one place.
+      </p>
+      <div class="d-flex gap-2 flex-wrap">
+        <a class="btn btn-primary" href="/portal/">Open Client Portal</a>
+        <a class="btn btn-outline-primary" href="/staff/">Staff Dashboard</a>
+        <a class="btn btn-outline-secondary" href="/admin/">Admin</a>
+      </div>
+
+      <hr class="my-4">
+
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="border rounded-4 p-3">
+            <div class="fw-semibold">Self-service</div>
+            <div class="text-muted small">Clients check status via OTP.</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="border rounded-4 p-3">
+            <div class="fw-semibold">Automation</div>
+            <div class="text-muted small">Status changes trigger updates.</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="border rounded-4 p-3">
+            <div class="fw-semibold">Global-ready</div>
+            <div class="text-muted small">ISO country codes + E.164.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card p-4">
+      <h5 class="fw-bold mb-3">What this solves</h5>
+      <ul class="text-muted mb-0">
+        <li>Clients calling repeatedly for the same updates</li>
+        <li>Staff overwhelmed by WhatsApp follow-ups</li>
+        <li>Lost documents and unclear case ownership</li>
+        <li>No visibility into case timelines and next steps</li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}

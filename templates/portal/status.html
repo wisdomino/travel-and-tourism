@@ -1,24 +1,44 @@
-<!doctype html>
-<html>
-<head><title>My Application Status</title></head>
-<body>
-  <h2>My Application Status</h2>
-  <p><a href="/portal/logout/">Logout</a></p>
+{% extends "base.html" %}
+{% block title %}Client Portal · My Applications{% endblock %}
 
-  {% if cases %}
-    <ul>
-      {% for c in cases %}
-        <li>
-          <b>{{ c.case_code }}</b> — {{ c.destination_country_code }} ({{ c.get_application_type_display }})<br/>
-          Status: <b>{{ c.get_current_status_display }}</b><br/>
-          Next action: {{ c.next_action|default:"-" }}<br/>
-          Updated: {{ c.updated_at }}
-        </li>
-        <hr/>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No cases found.</p>
-  {% endif %}
-</body>
-</html>
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h3 class="fw-bold mb-0">My Applications</h3>
+    <div class="text-muted">View your current status and next steps.</div>
+  </div>
+  <a class="btn btn-outline-secondary" href="/portal/logout/">Logout</a>
+</div>
+
+{% if cases %}
+  <div class="row g-3">
+    {% for c in cases %}
+      <div class="col-md-6">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <div class="fw-semibold">{{ c.case_code }}</div>
+              <div class="text-muted small">{{ c.destination_country_code }} · {{ c.get_application_type_display }}</div>
+            </div>
+            <span class="badge text-bg-primary">{{ c.get_current_status_display }}</span>
+          </div>
+
+          <hr>
+
+          <div class="small text-muted">Next step</div>
+          <div class="mb-3">{{ c.next_action|default:"-" }}</div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="small text-muted">Updated: {{ c.updated_at }}</div>
+            <a class="btn btn-sm btn-outline-primary" href="/portal/case/{{ c.id }}/">View details</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="card p-4">
+    <p class="mb-0">No cases found.</p>
+  </div>
+{% endif %}
+{% endblock %}

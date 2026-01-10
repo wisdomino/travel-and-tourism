@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.exceptions import ValidationError
+from .models import StatusHistory
 
 from .models import Case
 from .portal_services import request_portal_otp, verify_portal_otp
@@ -76,3 +77,21 @@ def _get_ip(request):
     if xff:
         return xff.split(",")[0].strip()
     return request.META.get("REMOTE_ADDR")
+
+def portal_case_detail(request, case_id: int):
+    client_id = request.session.get(SESSION_KEY)
+    if not client_id:
+        return redirect("portal_start")
+
+    case = (
+        Case.objects
+        .select_related("program", "branch", "client")
+        .filter(id=case_id, client_id=client_id)
+        .first()
+    )
+    if not case:
+        messages.error(request, "Case not found.")
+        return redirect("portal_status")
+
+    timeline = StatusHistory.objects.filter(case=case).order_by("-changed_at")[:50]
+    return render(request, "portal/case_detail.html", {"case": case, "timeline": timeline})
