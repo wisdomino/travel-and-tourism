@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Staff · {{ client.client_code }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h3 class="fw-bold mb-0">{{ client.full_name }}</h3>
+    <div class="text-muted">{{ client.client_code }} · {{ client.phone_e164 }} · {{ client.email|default:"-" }}</div>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-primary" href="/staff/clients/{{ client.id }}/cases/new/">New Case</a>
+    <a class="btn btn-outline-secondary" href="/staff/clients/">Back</a>
+  </div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-4">
+    <div class="card p-4">
+      <div class="text-muted small">Organization</div>
+      <div class="fw-semibold mb-2">{{ client.organization.name }}</div>
+
+      <div class="text-muted small">Timezone</div>
+      <div class="mb-2">{{ client.timezone }}</div>
+
+      <div class="text-muted small">Language</div>
+      <div class="mb-2">{{ client.preferred_language }}</div>
+
+      <div class="text-muted small">Source</div>
+      <div>{{ client.source|default:"-" }}</div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card p-4">
+      <h5 class="fw-bold mb-3">Cases</h5>
+      {% if cases %}
+        <div class="list-group list-group-flush">
+          {% for c in cases %}
+            <a class="list-group-item list-group-item-action" href="/staff/cases/{{ c.id }}/">
+              <div class="d-flex justify-content-between">
+                <div class="fw-semibold">{{ c.case_code }}</div>
+                <span class="badge text-bg-primary">{{ c.current_status }}</span>
+              </div>
+              <div class="text-muted small">{{ c.destination_country_code }} · {{ c.get_application_type_display }}</div>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-muted">No cases yet. Create one to begin tracking.</div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

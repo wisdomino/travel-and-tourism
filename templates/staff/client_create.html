@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Staff · New Client{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card p-4 p-lg-5">
+      <h3 class="fw-bold mb-1">Register New Client</h3>
+      <p class="text-muted mb-4">Capture client details in global format (E.164, timezone).</p>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Organization</label>
+            {{ form.organization }}
+            {% if form.organization.errors %}<div class="text-danger small">{{ form.organization.errors }}</div>{% endif %}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Source</label>
+            {{ form.source }}
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Full Name</label>
+            {{ form.full_name }}
+            {% if form.full_name.errors %}<div class="text-danger small">{{ form.full_name.errors }}</div>{% endif %}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Phone (E.164)</label>
+            {{ form.phone_e164 }}
+            {% if form.phone_e164.errors %}<div class="text-danger small">{{ form.phone_e164.errors }}</div>{% endif %}
+            <div class="form-text">{{ form.phone_e164.help_text }}</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Email</label>
+            {{ form.email }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Timezone</label>
+            {{ form.timezone }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Preferred Language</label>
+            {{ form.preferred_language }}
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+          <button class="btn btn-primary" type="submit">Create Client</button>
+          <a class="btn btn-outline-secondary" href="/staff/clients/">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

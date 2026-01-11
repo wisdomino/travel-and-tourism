@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Staff · New Case{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card p-4 p-lg-5">
+      <h3 class="fw-bold mb-1">Create New Case</h3>
+      <p class="text-muted mb-4">{{ client.full_name }} · {{ client.client_code }}</p>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Branch (optional)</label>
+            {{ form.branch }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Program (optional)</label>
+            {{ form.program }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Destination Country (ISO)</label>
+            {{ form.destination_country_code }}
+            {% if form.destination_country_code.errors %}<div class="text-danger small">{{ form.destination_country_code.errors }}</div>{% endif %}
+            <div class="form-text">{{ form.destination_country_code.help_text }}</div>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">Application Type</label>
+            {{ form.application_type }}
+          </div>
+
+          <div class="col-md-12">
+            <label class="form-label">Assign Officer (optional: user id)</label>
+            {{ form.assigned_officer_id }}
+            <div class="form-text">Leave blank to assign you (current staff).</div>
+          </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+          <button class="btn btn-primary" type="submit">Create Case</button>
+          <a class="btn btn-outline-secondary" href="/staff/clients/{{ client.id }}/">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

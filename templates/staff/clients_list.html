@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Staff · Clients{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h3 class="fw-bold mb-0">Clients</h3>
+    <div class="text-muted">Search and manage clients.</div>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-primary" href="/staff/clients/new/">New Client</a>
+    <a class="btn btn-outline-secondary" href="/staff/">Back</a>
+  </div>
+</div>
+
+<div class="card p-3 mb-3">
+  <form method="get" class="row g-2 align-items-end">
+    <div class="col-md-10">
+      <label class="form-label">Search</label>
+      <input class="form-control" name="q" placeholder="Name, Client ID, Phone" value="{{ request.GET.q }}">
+    </div>
+    <div class="col-md-2 d-grid">
+      <button class="btn btn-outline-primary" type="submit">Search</button>
+    </div>
+  </form>
+</div>
+
+<div class="row g-3">
+  {% for c in clients %}
+    <div class="col-md-6">
+      <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-start">
+          <div>
+            <div class="fw-semibold">{{ c.full_name }}</div>
+            <div class="text-muted small">{{ c.client_code }} · {{ c.phone_e164 }}</div>
+            <div class="text-muted small">Org: {{ c.organization.name }}</div>
+          </div>
+          <a class="btn btn-sm btn-outline-primary" href="/staff/clients/{{ c.id }}/">Open</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col-12">
+      <div class="card p-4">No clients found.</div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
